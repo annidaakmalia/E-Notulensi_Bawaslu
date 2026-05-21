@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pengaturan | E-Notulensi Bawaslu</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo-box">
+      <img src="/logo_bawaslu.png" alt="Logo Bawaslu">
+      <h2>BAWASLU</h2>
+    </div>
+    <nav>
+      <a href="/dashboard" class="<%= currentPath === '/dashboard' ? 'active' : '' %>">Dashboard</a>      
+      <a href="/notulensi" class="<%= currentPath.startsWith('/notulensi') ? 'active' : '' %>">Daftar Notulensi</a>
+      <!-- KHUSUS PIMPINAN -->
+      <% if (user.role_id === 1) { %>
+        <a href="/user/tambah"class="<%= currentPath === '/user/tambah' ? 'active' : '' %>"> Tambah User</a>
+      <% } %>
+        <a href="/pengaturan" class="<%= currentPath === '/pengaturan' ? 'active' : '' %>"> Pengaturan </a>
+      <a href="/logout" class="logout">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <header class="topbar">
+      <h1>Pengaturan Akun</h1>
+    </header>
+    <% if (messages.success.length > 0) { %>
+      <div class="alert-success"><%= messages.success %></div>
+    <% } %>
+    <% if (messages.error.length > 0) { %>
+      <div class="alert-error"><%= messages.error %></div>
+    <% } %>
+
+<form action="/pengaturan/update" method="POST">
+  <div class="form-group">
+    <label>Username</label>
+    <div class="input-box">
+      <input type="text" name="username" value="<%= user.nama %>">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Jenis Kelamin</label>
+    <div class="input-box">
+      <input type="text" name="jenis_kelamin" value="<%= user.jenis_kelamin %>">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Email</label>
+    <div class="input-box">
+      <input type="email" name="email" value="<%= user.email %>">
+      <button type="submit"class="btn-primary full-btn">Simpan Perubahan</button>
+    </div>
+  </div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

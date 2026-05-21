@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Notulensi</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="logo-box">
+      <img src="/logo_bawaslu.png" alt="Logo">
+      <h2>BAWASLU</h2>
+    </div>
+
+    <nav>
+      <a href="/dashboard"
+         class="<%= currentPath === '/dashboard' ? 'active' : '' %>">
+         Dashboard
+      </a>
+
+      <a href="/notulensi"
+         class="<%= currentPath === '/notulensi' ? 'active' : '' %>">
+         Daftar Notulensi
+      </a>
+
+      <% if(user.role === 'staf'){ %>
+        <a href="/notulensi/create">
+          Tambah Notulensi
+        </a>
+      <% } %>
+
+      <% if(user.role === 'pimpinan'){ %>
+        <a href="/user/tambah">
+          Tambah User
+        </a>
+      <% } %>
+      
+      <a href="/pengaturan" 
+        class="<%= currentPath === '/pengaturan' ? 'active' : '' %>"> 
+        Pengaturan 
+      </a>
+
+      <a href="/logout" class="logout">
+        Logout
+      </a>
+    </nav>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <header class="topbar">
+      <h1>Edit Notulensi</h1>
+    </header>
+
+    <% if(data){ %>
+
+    <div class="form-container">
+
+      <form action="/notulensi/edit/<%= data.id %>" method="POST">
+
+        <div class="form-group">
+          <label>Tanggal</label>
+          <input type="date"
+                 name="tanggal_kegiatan"
+                 value="<%= data.tanggal_kegiatan.toISOString().split('T')[0] %>">
+        </div>
+
+        <div class="form-group">
+          <label>Waktu Mulai</label>
+          <input type="time"
+                 name="waktu_mulai"
+                 value="<%= data.waktu_mulai %>">
+        </div>
+
+        <div class="form-group">
+          <label>Waktu Selesai</label>
+          <input type="time"
+                 name="waktu_selesai"
+                 value="<%= data.waktu_selesai %>">
+        </div>
+
+        <div class="form-group">
+          <label>Tempat</label>
+          <input type="text"
+                 name="tempat"
+                 value="<%= data.tempat %>">
+        </div>
+
+        <div class="form-group">
+          <label>Agenda</label>
+          <input type="text"
+                 name="agenda"
+                 value="<%= data.agenda %>">
+        </div>
+
+        <div class="form-group">
+          <label>Pimpinan</label>
+          <input type="text"
+                 name="pimpinan"
+                 value="<%= data.pimpinan_kegiatan %>">
+        </div>
+
+        <div class="form-group">
+          <label>Notulis</label>
+          <input type="text"
+                 name="notulis"
+                 value="<%= data.notulis %>">
+        </div>
+
+        <div class="form-group">
+          <label>Peserta</label>
+          <textarea name="peserta"><%= data.peserta_kegiatan %></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Isi Notulensi</label>
+          <textarea name="isi"><%= data.isi_notulensi %></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          Update Notulensi
+        </button>
+
+      </form>
+
+    </div>
+
+    <% } else { %>
+
+      <h2>Data tidak ditemukan</h2>
+
+    <% } %>
+
+  </main>
+
+</div>
+
+</body>
+</html>

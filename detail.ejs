@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Detail Notulensi</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+
+   <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo-box">
+      <img src="/logo_bawaslu.png" alt="Logo Bawaslu">
+      <h2>BAWASLU</h2>
+    </div>
+    <nav>
+      <a href="/dashboard" class="<%= currentPath === '/dashboard' ? 'active' : '' %>">Dashboard</a>      
+      <a href="/notulensi" class="<%= currentPath.startsWith('/notulensi') ? 'active' : '' %>">Daftar Notulensi</a>
+      <!-- KHUSUS PIMPINAN -->
+      <% if (user.role_id === 1) { %>
+        <a href="/user/tambah"class="<%= currentPath === '/user/tambah' ? 'active' : '' %>"> Tambah User</a>
+      <% } %>
+        <a href="/pengaturan" class="<%= currentPath === '/pengaturan' ? 'active' : '' %>"> Pengaturan </a>
+      <a href="/logout" class="logout">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <header class="topbar">
+      <h1>Detail Notulensi</h1>
+    </header>
+
+    <div class="detail-card">
+
+      <div class="detail-item">
+        <label>Tanggal</label>
+        <p>
+          <%= new Date(data.tanggal_kegiatan)
+          .toLocaleDateString('id-ID',{
+            weekday:'long',
+            day:'2-digit',
+            month:'long',
+            year:'numeric'
+          }) %>
+        </p>
+      </div>
+
+      <div class="detail-item">
+        <label>Waktu</label>
+        <p>
+          <%= data.waktu_mulai.slice(0,5) %> -
+          <%= data.waktu_selesai.slice(0,5) %> WITA
+        </p>
+      </div>
+
+      <div class="detail-item">
+        <label>Tempat</label>
+        <p><%= data.tempat %></p>
+      </div>
+
+      <div class="detail-item">
+        <label>Agenda</label>
+        <p><%= data.agenda %></p>
+      </div>
+
+      <div class="detail-item">
+        <label>Pimpinan</label>
+        <p><%= data.pimpinan_kegiatan %></p>
+      </div>
+
+      <div class="detail-item">
+        <label>Notulis</label>
+        <p><%= data.notulis %></p>
+      </div>
+
+      <div class="detail-item">
+        <label>Peserta</label>
+        <p><%= data.peserta_kegiatan %></p>
+      </div>
+
+      <div class="detail-item">
+        <label>Isi Notulensi</label>
+        <div class="isi-box">
+          <%= data.isi_notulensi %>
+        </div>
+      </div>
+
+      <% if(data.lampiran){ %>
+
+      <div class="detail-item">
+        <label>Lampiran</label>
+
+        <img src="/uploads/<%= data.lampiran %>"
+             class="lampiran-img">
+      </div>
+
+      <% } %>
+
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>

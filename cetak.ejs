@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Cetak Notulensi</title>
+
+<style>
+
+@page{
+  size: A4;
+  margin: 20mm;
+}
+
+body{
+  font-family: "Times New Roman", serif;
+  margin: 40px;
+  color: #000;
+  line-height: 1.5;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+  display: flex;
+  align-items: center;
+  border-bottom: 3px solid black;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.logo{
+  width: 100px;
+  text-align: center;
+}
+
+.logo img{
+  width: 80px;
+  height: auto;
+  object-fit: contain;
+}
+
+.header-text{
+  flex: 1;
+  text-align: center;
+  margin-right: 80px;
+}
+
+.header-text h2{
+  margin: 0;
+  font-size: 20px;
+}
+
+.header-text p{
+  margin: 2px 0;
+  font-size: 12px;
+}
+
+/* ================= JUDUL ================= */
+
+.judul{
+  text-align: center;
+  margin-bottom: 15px;
+  text-decoration: underline;
+  font-size: 18px;
+}
+
+/* ================= TABLE ================= */
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+}
+
+td{
+  padding: 5px;
+  vertical-align: top;
+  border-bottom: 1px solid #ddd;
+}
+
+.label{
+  width: 220px;
+  font-weight: bold;
+}
+
+/* ================= ISI ================= */
+
+.isi-notulensi{
+  margin-top: 30px;
+}
+
+.isi-notulensi h3{
+  margin-bottom: 10px;
+}
+
+.isi-notulensi p{
+  text-align: justify;
+  line-height: 1.5;
+}
+
+/* ================= TTD ================= */
+
+.ttd{
+  width: 300px;
+  margin-left: auto;
+  margin-top: 50px;
+  text-align: center;
+}
+
+/* ================= BUTTON ================= */
+
+.print-btn{
+  margin-top: 40px;
+  padding: 12px 24px;
+  border: none;
+  background: #f59e0b;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.print-btn:hover{
+  background: #d97706;
+}
+
+/* ================= PRINT ================= */
+
+@media print{
+
+  .print-btn{
+    display: none;
+  }
+
+  body{
+    margin: 0;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+  <div class="header-text">
+
+    <h2>BADAN PENGAWAS PEMILIHAN UMUM KOTA BONTANG</h2>
+
+    <p>
+      Jalan S. Parman No.29 RT.48, Kelurahan Belimbing, Bontang Barat, Kota Bontang, Kalimantan Timur, 75313 
+    </p>
+
+    <p>
+      Email: bawaslubontang@gmail.com
+    </p>
+
+  </div>
+
+</div>
+
+<!-- ================= JUDUL ================= -->
+
+<h2 class="judul">NOTULENSI</h2>
+
+<!-- ================= INFORMASI ================= -->
+
+<table>
+
+<tr>
+  <td class="label">Tanggal</td>
+  <td>
+    :
+    <%= data.tanggal_kegiatan
+      ? new Date(data.tanggal_kegiatan)
+      .toLocaleDateString('id-ID',{
+        day:'numeric',
+        month:'long',
+        year:'numeric'
+      })
+      : '-' %>
+  </td>
+</tr>
+
+<tr>
+  <td class="label">Waktu</td>
+  <td>
+    :
+    <%= data.waktu_mulai
+      ? data.waktu_mulai.slice(0,5)
+      : '-' %>
+
+    -
+
+    <%= data.waktu_selesai
+      ? data.waktu_selesai.slice(0,5)
+      : '-' %>
+
+    WITA
+  </td>
+</tr>
+
+<tr>
+  <td class="label">Tempat</td>
+  <td>: <%= data.tempat || '-' %></td>
+</tr>
+
+<tr>
+  <td class="label">Agenda</td>
+  <td>: <%= data.agenda || '-' %></td>
+</tr>
+
+<tr>
+  <td class="label">Pimpinan Rapat</td>
+  <td>: <%= data.pimpinan_kegiatan || '-' %></td>
+</tr>
+
+<tr>
+  <td class="label">Notulis</td>
+  <td>: <%= data.notulis || '-' %></td>
+</tr>
+
+<tr>
+  <td class="label">Peserta</td>
+  <td>: <%= data.peserta_kegiatan || '-' %></td>
+</tr>
+
+<tr>
+  <td class="label">Lampiran</td>
+  <td>
+
+    :
+
+    <% if(data.lampiran){ %>
+
+      <a href="/uploads/<%= data.lampiran %>"
+         target="_blank">
+
+         Lihat Lampiran
+
+      </a>
+
+    <% } else { %>
+
+      Tidak ada lampiran
+
+    <% } %>
+
+  </td>
+</tr>
+
+</table>
+
+<!-- ================= ISI ================= -->
+
+<div class="isi-notulensi">
+
+  <h3>Isi Notulensi</h3>
+
+  <p>
+    <%- data.isi_notulensi? data.isi_notulensi.replace(/\n/g, '<br>'): '-' %>  </p>
+</div>
+
+<!-- ================= TANDA TANGAN ================= -->
+
+<div class="ttd">
+
+  <p>
+    Bontang,
+    <%= new Date().toLocaleDateString('id-ID',{
+      day:'numeric',
+      month:'long',
+      year:'numeric'
+    }) %>
+  </p>
+
+  <p>Notulis,</p>
+
+  <br><br><br><br>
+
+  <strong>
+    <%= data.notulis || '-' %>
+  </strong>
+
+</div>
+
+<!-- ================= BUTTON ================= -->
+
+<button class="print-btn" onclick="window.print()">
+  Cetak Notulensi
+</button>
+
+<!-- ================= AUTO PRINT ================= -->
+
+<script>
+
+window.onload = function(){
+
+  console.log("Halaman cetak berhasil");
+
+};
+
+</script>
+
+</body>
+</html>

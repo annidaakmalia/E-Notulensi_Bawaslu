@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | E-Notulensi BAWASLU</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <div class="login-wrapper">
+    <div class="login-card">
+
+      <!-- LOGO -->
+      <div class="logo">
+        <img src="/logo_bawaslu.png" alt="Logo Bawaslu" class="login-logo">
+      </div>
+
+      <!-- TITLE -->
+      <h2>E-Notulensi <span>BAWASLU</span></h2>
+      <p class="subtitle">Sistem Informasi Notulensi</p>
+
+      <!-- ERROR MESSAGE -->
+      <% if (messages && messages.error && messages.error.length) { %>
+        <div class="error-box">
+          <%= messages.error[0] %>
+        </div>
+      <% } %>
+
+      <!-- FORM -->
+      <form action="/login" method="POST">
+        <label>Username </label>
+        <input type="text" name="nama" placeholder="👤Masukkan Username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" placeholder="🔒Masukkan password" required>
+
+        <button type="submit" class="btn-login">LOGIN</button>
+        
+      </form>
+
+      <!-- FOOTER -->
+      <div class="footer">
+        <small>© 2026 Sistem Notulensi</small><br>
+        <small class="bawaslu-text">Badan Pengawas Pemilihan Umum</small>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

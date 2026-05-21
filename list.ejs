@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Daftar Notulensi</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="dashboard-wrapper">
+  <aside class="sidebar">
+    <div class="logo-box">
+      <img src="/logo_bawaslu.png" alt="Logo Bawaslu">
+      <h2>BAWASLU</h2>
+    </div>
+    <nav>
+      <a href="/dashboard" class="<%= currentPath === '/dashboard' ? 'active' : '' %>">Dashboard</a>      
+      <a href="/notulensi" class="<%= currentPath.startsWith('/notulensi') ? 'active' : '' %>">Daftar Notulensi</a>
+      <!-- KHUSUS PIMPINAN -->
+      <% if (user.role_id === 1) { %>
+        <a href="/user/tambah"class="<%= currentPath === '/user/tambah' ? 'active' : '' %>"> Tambah User</a>
+      <% } %>
+        <a href="/pengaturan" class="<%= currentPath === '/pengaturan' ? 'active' : '' %>"> Pengaturan </a>
+      <a href="/logout" class="logout">Logout</a>
+    </nav>
+  </aside>
+  
+  <main class="main-content">
+    <header class="topbar">
+      <h1>Daftar Notulensi</h1>
+       <% if (user.role_id === 2) { %>
+        <a href="/notulensi/create" class="btn-tambah-notulensi"> + Tambah Notulensi </a>
+      <% } %>
+    </header>
+
+  <div class="table-container">
+
+  <div class="search-box">
+   <input 
+    type="text" 
+    id="searchInput"
+    placeholder="🔍Cari notulensi...">
+  </div>
+
+  <table class="notulensi-table">
+
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Tanggal</th>
+        <th>Waktu</th>
+        <th>Agenda</th>
+        <th>Tempat</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+
+    <tbody id="tableBody">
+      <% if(data.length > 0){ %>
+        <% data.forEach((item, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td>
+              <%= new Date(item.tanggal_kegiatan)
+              .toLocaleDateString('id-ID',{
+                day:'2-digit',
+                month:'long',
+                year:'numeric'
+              }) %>
+            </td>
+            <td>
+              <%= item.waktu_mulai.slice(0,5) %> -
+              <%= item.waktu_selesai.slice(0,5) %> WITA
+            </td>
+            <td><%= item.agenda %></td>
+            <td><%= item.tempat %></td>
+            <td class="aksi">
+              <% if(user.role_id === 2){ %>
+                <a href="/notulensi/edit/<%= item.id %>"
+                  class="btn-edit">
+                  Edit
+                </a>
+                <a href="/notulensi/delete/<%= item.id %>"
+                  class="btn-delete"
+                  onclick="return confirm('Yakin hapus data?')">
+                  Hapus
+                </a>
+              <% } %>
+              <% if(user.role_id === 1){ %>
+                <a href="/notulensi/detail/<%= item.id %>"class="btn-detail">Lihat Notulensi</a>
+              <% } %>
+              <a href="/notulensi/cetak/<%= item.id %>" class="btn-print" target="_blank"> Cetak </a>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="6" class="empty-data">Belum ada data notulensi</td>
+        </tr>
+      <% } %>
+      </tbody>
+    </div>
+  </main>
+</div>
+<script>
+const searchInput = document.getElementById('searchInput');
+const tableBody = document.getElementById('tableBody');
+const rows = tableBody.querySelectorAll('tr');
+const notFoundRow = document.getElementById('notFoundRow');
+searchInput.addEventListener('keyup', function () {
+  const keyword = this.value.toLowerCase();
+  let found = false;
+  rows.forEach(row => {
+    // skip row not found
+    if(row.id === 'notFoundRow') return;
+
+    const text = row.innerText.toLowerCase();
+    if (text.includes(keyword)) {
+      row.style.display = '';
+      found = true;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+  // tampilkan pesan jika tidak ada
+  if(found){
+    notFoundRow.style.display = 'none';
+  } else {
+    notFoundRow.style.display = '';
+  }
+});
+</script>
+</body>
+</html>
